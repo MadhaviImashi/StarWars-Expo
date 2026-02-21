@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
     paddingHorizontal: 20,
-    // paddingVertical: 25,
   },
   center: {
     flex: 1,
@@ -94,10 +93,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-  localBadge: {
-    color: Colors.text.link,
-    marginTop: 5,
   },
   section: {
     marginBottom: 15,
