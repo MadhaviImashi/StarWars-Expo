@@ -37,7 +37,7 @@ export default function DetailScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Stack.Screen options={{ title: person.name }} />
+      <Stack.Screen options={{headerShown: true, title: ''}} />
       
       <View style={styles.header}>
         <Text style={styles.name}>{person.name}</Text>
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
+    paddingHorizontal: 20,
+    // paddingVertical: 25,
   },
   center: {
     flex: 1,
@@ -81,12 +82,17 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#5c7ce6',
+    backgroundColor: '#cfd9fa',
+    paddingTop: 15,
     paddingBottom: 10,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
   name: {
     fontSize: 24,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   localBadge: {
     color: 'blue',

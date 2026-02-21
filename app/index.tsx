@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import lodash from 'lodash';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { fetchPeople } from '../api/swapi';
 import { CreatePersonModal } from '../components/CreatePersonModal';
@@ -116,7 +116,7 @@ export default function ListScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
+        <Ionicons name="search" size={20} color="#5c7ce6" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search characters..."
@@ -126,7 +126,7 @@ export default function ListScreen() {
         />
         {inputValue.length > 0 && (
           <TouchableOpacity onPress={clearSearch}>
-            <Ionicons name="close-circle" size={20} color="#666" />
+            <Ionicons name="close-circle" size={20} color="#5c7ce6" />
           </TouchableOpacity>
         )}
       </View>
@@ -154,6 +154,7 @@ export default function ListScreen() {
             <Text>No matching results found.</Text>
           </View>
         }
+        contentContainerStyle={{paddingBottom: 30}}
       />
 
       <TouchableOpacity
@@ -174,7 +175,7 @@ export default function ListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f0f4ff',
   },
   center: {
     flex: 1,
@@ -190,6 +191,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 8,
     elevation: 2,
+        shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   searchIcon: {
     marginRight: 10,
@@ -201,8 +206,8 @@ const styles = StyleSheet.create({
   plusIcon: {
     position: 'absolute',
     right: 20,
-    bottom: 20,
-    backgroundColor: '#007AFF',
+    bottom: 35,
+    backgroundColor: '#5c7ce6',
     width: 56,
     height: 56,
     borderRadius: 28,

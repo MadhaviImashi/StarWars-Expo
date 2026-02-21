@@ -11,8 +11,8 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <LocalPeopleProvider>
           <Stack>
-            <Stack.Screen name="index" options={{ title: 'Star Wars Universe' }} />
-            <Stack.Screen name="details/[id]" options={{ title: 'Person Details' }} />
+            <Stack.Screen name="index" options={{ title: 'People' }} />
+            <Stack.Screen name="details/[id]" options={{ title: 'Details' }} />
           </Stack>
         </LocalPeopleProvider>
       </QueryClientProvider>

@@ -20,7 +20,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({ person, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#cfd9fa',
     padding: 16,
     marginVertical: 8,
     marginHorizontal: 16,

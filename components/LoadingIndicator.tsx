@@ -7,7 +7,7 @@ interface LoadingIndicatorProps {
   style?: object;
 }
 
-export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ size = 'large', color = '#0000ff', style }) => (
+export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ size = 'large', color = '#5c7ce6', style }) => (
   <View style={[styles.center, style]}>
     <ActivityIndicator size={size} color={color} />
   </View>
