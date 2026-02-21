@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Modal } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Modal, Pressable, ScrollView } from 'react-native';
 import { useMutation } from '@tanstack/react-query';
 import { createPerson } from '../api/swapi';
 import { useLocalPeople } from '../context/LocalPeopleContext';
 import { LoadingIndicator } from './LoadingIndicator';
+import { Colors } from '@/constants/Colors';
 
 interface CreatePersonModalProps {
   visible: boolean;
   onClose: () => void;
 }
 
-export const CreatePersonModal: React.FC<CreatePersonModalProps> = ({ visible, onClose }) => {
-  const [name, setName] = useState('');
-  const [height, setHeight] = useState('');
-  const [birthYear, setBirthYear] = useState('');
-  const [films, setFilms] = useState('');
-  
+export const CreatePersonModal: React.FC<CreatePersonModalProps> = ({visible, onClose}) => {
+  const [name, setName] = useState("");
+  const [height, setHeight] = useState("");
+  const [birthYear, setBirthYear] = useState("");
+  const [films, setFilms] = useState("");
+
+  const heightInputRef = useRef<TextInput>(null);
+  const birthYearInputRef = useRef<TextInput>(null);
+  const filmsInputRef = useRef<TextInput>(null);
+
   const { addLocalPerson } = useLocalPeople();
 
   const resetForm = () => {
@@ -36,14 +41,14 @@ export const CreatePersonModal: React.FC<CreatePersonModalProps> = ({ visible, o
       resetForm();
     },
     onError: (error) => {
-      console.error('Failed to create person:', error);
-      alert('Failed to create person. Please try again.');
+      console.error("Failed to create person:", error);
+      alert("Failed to create person. Please try again.");
     },
   });
 
   const handleSubmit = () => {
     if (!name || !height || !birthYear) {
-      alert('Please fill in all required fields');
+      alert("Please fill in all required fields");
       return;
     }
 
@@ -58,47 +63,67 @@ export const CreatePersonModal: React.FC<CreatePersonModalProps> = ({ visible, o
   };
 
   return (
-    <Modal visible={visible} animationType="slide" transparent>
-      <View style={styles.overlay}>
-        <View style={styles.modalContent}>
+    <Modal
+      visible={visible}
+      animationType="fade"
+      transparent
+      onRequestClose={onClose}
+    >
+      <Pressable style={styles.overlay} onPress={onClose}>
+        <Pressable style={styles.modalContent} onPress={(e) => e.stopPropagation()}
+        >
           <Text style={styles.title}>Create New Person</Text>
-          
-          <TextInput
-            style={styles.input}
-            placeholder="Name"
-            value={name}
-            onChangeText={setName}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Height"
-            value={height}
-            onChangeText={setHeight}
-            keyboardType="numeric"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Birth Year"
-            value={birthYear}
-            onChangeText={setBirthYear}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Film"
-            value={films}
-            onChangeText={setFilms}
-          />
+          <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={{ paddingBottom: 50, paddingHorizontal: 5 }}>
+            <Text style={styles.label}>Name</Text>
+            <TextInput
+              style={styles.input}
+              value={name}
+              onChangeText={setName}
+              returnKeyType="next"
+              onSubmitEditing={() => heightInputRef.current?.focus()}
+            />
 
+            <Text style={styles.label}>Height (cm)</Text>
+            <TextInput
+              ref={heightInputRef}
+              style={styles.input}
+              value={height}
+              onChangeText={setHeight}
+              keyboardType="numeric"
+              returnKeyType="next"
+              onSubmitEditing={() => birthYearInputRef.current?.focus()}
+            />
+
+            <Text style={styles.label}>Birth Year</Text>
+            <TextInput
+              ref={birthYearInputRef}
+              style={styles.input}
+              value={birthYear}
+              onChangeText={setBirthYear}
+              returnKeyType="next"
+              onSubmitEditing={() => filmsInputRef.current?.focus()}
+            />
+
+            <Text style={styles.label}>Film (Optional)</Text>
+            <TextInput
+              ref={filmsInputRef}
+              style={styles.input}
+              value={films}
+              onChangeText={setFilms}
+              returnKeyType="done"
+            />
+          </ScrollView>
           {mutation.isPending ? (
-            <LoadingIndicator />
+            <View style={styles.buttonContainer}>
+              <LoadingIndicator />
+            </View>
           ) : (
             <View style={styles.buttonContainer}>
-              <Button title="Cancel" onPress={onClose} color="red" />
-              <Button title="Create" onPress={handleSubmit} />
+              <Button title="Create" onPress={handleSubmit} color={Colors.primary} />
             </View>
           )}
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 };
@@ -106,32 +131,41 @@ export const CreatePersonModal: React.FC<CreatePersonModalProps> = ({ visible, o
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
     padding: 20,
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 20,
     elevation: 5,
+    maxHeight: "50%",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: Colors.border,
     borderRadius: 5,
     padding: 10,
     marginBottom: 15,
+    color: Colors.text.primary,
+    backgroundColor: Colors.white,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 5,
+    color: Colors.text.primary,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "flex-end",
     marginTop: 10,
   },
 });
