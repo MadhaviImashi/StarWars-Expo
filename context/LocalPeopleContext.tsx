@@ -36,7 +36,7 @@ export const LocalPeopleProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook for easy access to the LocalPeopleContext
+// custom hook for easy access to the LocalPeopleContext
 export const useLocalPeople = () => {
   const context = useContext(LocalPeopleContext);
   if (!context) {
