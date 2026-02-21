@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { randomUUID } from 'expo-crypto';
-
 interface Person {
   id: string;
   name: string;
@@ -9,10 +8,10 @@ interface Person {
   films: string[];
   isLocal: boolean;
 }
-
 interface LocalPeopleContextType {
   localPeople: Person[];
   addLocalPerson: (person: Omit<Person, 'id' | 'isLocal'>) => void;
+  getLocalPersonById: (id: string) => Person | undefined;
 }
 
 const LocalPeopleContext = createContext<LocalPeopleContextType | undefined>(undefined);
@@ -29,8 +28,12 @@ export const LocalPeopleProvider = ({ children }: { children: ReactNode }) => {
     setLocalPeople((prev) => [newPerson, ...prev]);
   };
 
+  const getLocalPersonById = (id: string) => {
+    return localPeople.find((p) => p.id === id);
+  };
+
   return (
-    <LocalPeopleContext.Provider value={{ localPeople, addLocalPerson }}>
+    <LocalPeopleContext.Provider value={{ localPeople, addLocalPerson, getLocalPersonById }}>
       {children}
     </LocalPeopleContext.Provider>
   );
