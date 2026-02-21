@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { Colors } from '../constants/Colors';
 
 interface LoadingIndicatorProps {
   size?: 'small' | 'large';
@@ -7,7 +8,7 @@ interface LoadingIndicatorProps {
   style?: object;
 }
 
-export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ size = 'large', color = '#5c7ce6', style }) => (
+export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ size = 'large', color = Colors.primary, style }) => (
   <View style={[styles.center, style]}>
     <ActivityIndicator size={size} color={color} />
   </View>

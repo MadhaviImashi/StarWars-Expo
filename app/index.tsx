@@ -9,6 +9,7 @@ import { CreatePersonModal } from '../components/CreatePersonModal';
 import { ListFooter } from '../components/ListFooter';
 import { LoadingIndicator } from '../components/LoadingIndicator';
 import { PersonCard } from '../components/PersonCard';
+import { Colors } from '../constants/Colors';
 import { useLocalPeople } from '../context/LocalPeopleContext';
 
 export default function ListScreen() {
@@ -116,7 +117,7 @@ export default function ListScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#5c7ce6" style={styles.searchIcon} />
+        <Ionicons name="search" size={20} color={Colors.primary} style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search characters..."
@@ -126,7 +127,7 @@ export default function ListScreen() {
         />
         {inputValue.length > 0 && (
           <TouchableOpacity onPress={clearSearch}>
-            <Ionicons name="close-circle" size={20} color="#5c7ce6" />
+            <Ionicons name="close-circle" size={20} color={Colors.primary} />
           </TouchableOpacity>
         )}
       </View>
@@ -161,7 +162,7 @@ export default function ListScreen() {
         style={styles.plusIcon}
         onPress={() => setModalVisible(true)}
       >
-        <Ionicons name="add" size={30} color="#fff" />
+        <Ionicons name="add" size={30} color={Colors.white} />
       </TouchableOpacity>
 
       <CreatePersonModal
@@ -175,7 +176,7 @@ export default function ListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f4ff',
+    backgroundColor: Colors.background,
   },
   center: {
     flex: 1,
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     margin: 16,
     paddingHorizontal: 10,
     borderRadius: 8,
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     bottom: 35,
-    backgroundColor: '#5c7ce6',
+    backgroundColor: Colors.primary,
     width: 56,
     height: 56,
     borderRadius: 28,

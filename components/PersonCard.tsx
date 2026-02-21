@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Colors } from '../constants/Colors';
 
 interface PersonCardProps {
   person: any;
@@ -20,7 +21,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({ person, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#cfd9fa',
+    backgroundColor: Colors.secondary,
     padding: 16,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -41,12 +42,12 @@ const styles = StyleSheet.create({
   },
   detail: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.text.secondary,
   },
   localBadge: {
     marginTop: 4,
     fontSize: 12,
-    color: 'blue',
+    color: Colors.text.link,
     fontWeight: 'bold',
   },
 });

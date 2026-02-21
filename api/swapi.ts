@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_CONFIG } from '../constants/Config';
 
-const BASE_URL = 'https://swapi.dev/api';
+const { BASE_URL } = API_CONFIG;
 
 export const fetchPeople = async (page = 1) => {
   const response = await axios.get(`${BASE_URL}/people/?page=${page}`);

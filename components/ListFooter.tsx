@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { LoadingIndicator } from './LoadingIndicator';
+import { Colors } from '../constants/Colors';
 
 interface ListFooterProps {
   isFetchingNextPage: boolean;
@@ -29,7 +30,7 @@ export const ListFooter: React.FC<ListFooterProps> = ({
       <View style={styles.container}>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <Text style={styles.text}>Didn't find what you're looking for?</Text>
-        <Button title="Search Deeper" onPress={onFetchNextPage} color="#5c7ce6" />
+        <Button title="Search Deeper" onPress={onFetchNextPage} color={Colors.primary} />
       </View>
     );
   }
@@ -46,6 +47,6 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 10,
     fontSize: 16,
-    color: '#666',
+    color: Colors.text.secondary,
   },
 });

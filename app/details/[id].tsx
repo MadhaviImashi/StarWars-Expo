@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { fetchPerson } from '../../api/swapi';
 import { FilmNameItem } from '../../components/FilmNameItem';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { Colors } from '../../constants/Colors';
 import { useLocalPeople } from '../../context/LocalPeopleContext';
 
 export default function DetailScreen() {
@@ -70,7 +71,7 @@ export default function DetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     paddingHorizontal: 20,
     // paddingVertical: 25,
   },
@@ -82,8 +83,8 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#5c7ce6',
-    backgroundColor: '#cfd9fa',
+    borderBottomColor: Colors.primary,
+    backgroundColor: Colors.secondary,
     paddingTop: 15,
     paddingBottom: 10,
     borderTopLeftRadius: 8,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   localBadge: {
-    color: 'blue',
+    color: Colors.text.link,
     marginTop: 5,
   },
   section: {
@@ -104,11 +105,11 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.text.primary,
     marginBottom: 5,
   },
   value: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.text.secondary,
   },
 });
