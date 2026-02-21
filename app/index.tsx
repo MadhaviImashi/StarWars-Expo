@@ -1,15 +1,24 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
 import lodash from 'lodash';
-import React, { useCallback, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { fetchPeople } from '../api/swapi';
+import { CreatePersonModal } from '../components/CreatePersonModal';
+import { LoadingIndicator } from '../components/LoadingIndicator';
 import { PersonCard } from '../components/PersonCard';
+import { useLocalPeople } from '../context/LocalPeopleContext';
 
 export default function ListScreen() {
+  const router = useRouter();
   const [searchText, setSearchText] = useState('');
+  const [isModalVisible, setModalVisible] = useState(false);
 
-  // fetch paginated people data
+  // fetch local Data from Context
+  const { localPeople } = useLocalPeople();
+
+  // fetch paginated remote Data
   const {
     data: remoteData,
     fetchNextPage,
@@ -32,9 +41,24 @@ export default function ListScreen() {
     initialPageParam: 1,
   });
 
-  // Debounced Search Handler
+  // merge local & remote data
+  const allPeople = useMemo(() => {
+    const remotePeople = remoteData?.pages.flatMap((page) => page.results) || [];
+    return [...localPeople, ...remotePeople]; 
+  }, [localPeople, remoteData]);
+
+  // search
+  const filteredPeople = useMemo(() => {
+    if (!searchText) return allPeople;
+    const searchTextInLowerCase = searchText.toLowerCase();
+    return allPeople.filter((person: any) =>
+      person.name.toLowerCase().includes(searchTextInLowerCase)
+    );
+  }, [allPeople, searchText]);
+
+  // debounce searching
   const handleSearch = useCallback(
-    lodash.debounce((text: string) => {
+  lodash.debounce((text: string) => {
       setSearchText(text);
     }, 300),
     []
@@ -46,13 +70,25 @@ export default function ListScreen() {
     return (
       <PersonCard
         person={item}
-        onPress={() => {}}
+        onPress={() => {
+          let id = item.id;
+          // for remote items, extract ID from URL
+          if (!item.isLocal && item.url) {
+            const parts = item.url.split('/').filter(Boolean);
+            id = parts[parts.length - 1];
+          }
+          
+          router.push({
+            pathname: '/details/[id]',
+            params: { id, isLocal: item.isLocal ? 'true' : 'false' },
+          });
+        }}
       />
     );
   };
 
   if (status === 'pending') {
-    return <ActivityIndicator style={styles.center} size="large" color="#007AFF" />;
+    return <LoadingIndicator />;
   }
 
   if (status === 'error') {
@@ -69,24 +105,35 @@ export default function ListScreen() {
         <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search people..."
+          placeholder="Search characters..."
           onChangeText={handleSearch}
           autoCapitalize="none"
         />
       </View>
 
       <FlatList
-        data={remoteData?.pages.flatMap((page) => page.results) || []}
+        data={filteredPeople}
         keyExtractor={(item, index) => item?.id || item?.url || index.toString()}
         renderItem={renderItem}
         onEndReached={() => {
-          if (hasNextPage) {
+          if (!searchText && hasNextPage) {
             fetchNextPage();
           }
         }}
         onEndReachedThreshold={0.5} // Trigger when 50% from the bottom
       />
 
+      <TouchableOpacity
+        style={styles.plusIcon}
+        onPress={() => setModalVisible(true)}
+      >
+        <Ionicons name="add" size={30} color="#fff" />
+      </TouchableOpacity>
+
+      <CreatePersonModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 }
