@@ -6,6 +6,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { fetchPeople } from '../api/swapi';
 import { CreatePersonModal } from '../components/CreatePersonModal';
+import { ListFooter } from '../components/ListFooter';
 import { LoadingIndicator } from '../components/LoadingIndicator';
 import { PersonCard } from '../components/PersonCard';
 import { useLocalPeople } from '../context/LocalPeopleContext';
@@ -44,7 +45,7 @@ export default function ListScreen() {
   // merge local & remote data
   const allPeople = useMemo(() => {
     const remotePeople = remoteData?.pages.flatMap((page) => page.results) || [];
-    return [...localPeople, ...remotePeople]; 
+    return [...localPeople, ...remotePeople]; // Local data first, then remote
   }, [localPeople, remoteData]);
 
   // search
@@ -58,7 +59,7 @@ export default function ListScreen() {
 
   // debounce searching
   const handleSearch = useCallback(
-  lodash.debounce((text: string) => {
+    lodash.debounce((text: string) => {
       setSearchText(text);
     }, 300),
     []
@@ -120,7 +121,20 @@ export default function ListScreen() {
             fetchNextPage();
           }
         }}
-        onEndReachedThreshold={0.5} // Trigger when 50% from the bottom
+        onEndReachedThreshold={0.5} // trigger when 50% from the bottom
+        ListFooterComponent={
+          <ListFooter
+            isFetchingNextPage={isFetchingNextPage}
+            hasNextPage={hasNextPage}
+            searchText={searchText}
+            onFetchNextPage={fetchNextPage}
+          />
+        }
+        ListEmptyComponent={
+          <View style={styles.center}>
+            <Text>No matching results found.</Text>
+          </View>
+        }
       />
 
       <TouchableOpacity
