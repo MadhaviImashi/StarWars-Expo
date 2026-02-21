@@ -14,6 +14,7 @@ import { useLocalPeople } from '../context/LocalPeopleContext';
 export default function ListScreen() {
   const router = useRouter();
   const [searchText, setSearchText] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [isModalVisible, setModalVisible] = useState(false);
 
   // fetch local Data from Context
@@ -58,12 +59,24 @@ export default function ListScreen() {
   }, [allPeople, searchText]);
 
   // debounce searching
-  const handleSearch = useCallback(
-    lodash.debounce((text: string) => {
-      setSearchText(text);
-    }, 300),
+  const debouncedSetSearchText = useMemo(
+    () =>
+      lodash.debounce((text: string) => {
+        setSearchText(text);
+      }, 300),
     []
   );
+
+  const handleSearch = (text: string) => {
+    setInputValue(text);
+    debouncedSetSearchText(text);
+  };
+
+  const clearSearch = () => {
+    setInputValue('');
+    setSearchText('');
+    debouncedSetSearchText.cancel();
+  };
 
   const renderItem = ({ item }: { item: any }) => {
     if (!item) return null;
@@ -107,9 +120,15 @@ export default function ListScreen() {
         <TextInput
           style={styles.searchInput}
           placeholder="Search characters..."
+          value={inputValue}
           onChangeText={handleSearch}
           autoCapitalize="none"
         />
+        {inputValue.length > 0 && (
+          <TouchableOpacity onPress={clearSearch}>
+            <Ionicons name="close-circle" size={20} color="#666" />
+          </TouchableOpacity>
+        )}
       </View>
 
       <FlatList
