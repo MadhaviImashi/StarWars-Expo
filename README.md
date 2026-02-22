@@ -1,50 +1,48 @@
-# Welcome to your Expo app 👋
+# StarWars App - Expo
+This is the Expo app i implemented for the LiquidLabs TakeHome Assignment
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Prerequisites:
 
-## Get started
+- Node.js version 18 or higher (20+ is recommended) as i have used the latest React Native version.
+- Fastest way to run the app in a physical device is by using the ExpoGo app. Or else can run from an ios emulator (with Xcode) or an android emulator (using AndroidStudio).
 
-1. Install dependencies
+## Steps to run the App:
+
+1. Clone the repo & Navigate to the project folder
+   
+   ```bash
+   git clone https://github.com/MadhaviImashi/StarWars-Expo.git
+   cd StarWars
+   ```
+
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Run the app
 
    ```bash
-   npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+Once the server is running, you'll find options in the terminal to open the app in a preferred way (scan the QR code and open from ExpoGo app to run the app in a physical device | type a to open in Android emulator | type i to open in iOS emulator )
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Reasons for using specific frameworks or libraries: 
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. Expo - Used as per the guidelines
+2. Tanstack Query - Used for efficient server state management. It handles caching (so we don't re-fetch data unnecessarily when navigating back), simplifies the loading state and error handling. It also provides infinite scrolling capabilities via `useInfiniteQuery` which was essential for the paginated people list.
+3. Expo-crypto - Used to generate unique UUIDs for locally created users. 
+4. Axios - Used since it provides a cleaner API than fetch with automatic JSON parsing. Also, Axios automatically rejects the promise when status code is 4xx or 500 status codes (unlike fetch), which made simulating successful POST request easier.
+5. ReactNative Safe Area Context - Used it to handle ios notches & android status bars.
 
-## Get a fresh project
+## Performance Enhancements:
+- Leveraged TanStack Query's caching to avoid unnecessary refetching of same data.
+- Implemented Memoization on the PersonCard component & useCallback on the renderItem function to prevent unnecessary re-renders of list items during updates.
+- Implemented debouncing for the search input to prevent filtering logic from running on every keystroke for better UIUX.
 
-When you're ready, run:
+## Please Note:
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- The locally created user entries aren't persist accross app reloads as per the requirement. But the state is maintained while using the app (using Context API).
+- Also, No .env file is included as this demo app does not require confidential API keys. the configuration constants are stored in `Constants/Config.ts`.
