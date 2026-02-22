@@ -79,7 +79,7 @@ export default function ListScreen() {
     debouncedSetSearchText.cancel();
   };
 
-  const renderItem = ({ item }: { item: any }) => {
+  const renderItem = React.useCallback(({ item }: { item: any }) => {
     if (!item) return null;
 
     return (
@@ -100,7 +100,7 @@ export default function ListScreen() {
         }}
       />
     );
-  };
+  }, [router]);
 
   if (status === 'pending') {
     return <LoadingIndicator />;

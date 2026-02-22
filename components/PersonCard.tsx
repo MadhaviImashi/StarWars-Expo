@@ -7,7 +7,7 @@ interface PersonCardProps {
   onPress: () => void;
 }
 
-export const PersonCard: React.FC<PersonCardProps> = ({ person, onPress }) => {
+export const PersonCard = React.memo(function PersonCard({ person, onPress }: PersonCardProps) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <View style={styles.content}>
@@ -17,7 +17,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({ person, onPress }) => {
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 const styles = StyleSheet.create({
   card: {

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { LoadingIndicator } from './LoadingIndicator';
