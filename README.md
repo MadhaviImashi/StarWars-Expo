@@ -34,7 +34,7 @@ Once the server is running, you'll find options in the terminal to open the app 
 1. Expo - Used as per the guidelines
 2. Tanstack Query - Used for efficient server state management. It handles caching (so we don't re-fetch data unnecessarily when navigating back), simplifies the loading state and error handling. It also provides infinite scrolling capabilities via `useInfiniteQuery` which was essential for the paginated people list.
 3. Expo-crypto - Used to generate unique UUIDs for locally created users. 
-4. Axios - Used since it provides a cleaner API than fetch with automatic JSON parsing. Also, Axios automatically rejects the promise when status code is 4xx or 500 status codes (unlike fetch), which made simulating successful POST request easier.
+4. Axios - Used since it provides a cleaner API than fetch with automatic JSON parsing. Also, Axios automatically rejects the promise when status code is 4xx or 500 (unlike fetch), which made simulating successful POST request easier.
 5. ReactNative Safe Area Context - Used it to handle ios notches & android status bars.
 
 ## Performance Enhancements:
