@@ -12,7 +12,7 @@ This is the Expo app i implemented for the LiquidLabs TakeHome Assignment
    
    ```bash
    git clone https://github.com/MadhaviImashi/StarWars-Expo.git
-   cd StarWars
+   cd StarWars-Expo
    ```
 
 2. Install dependencies
