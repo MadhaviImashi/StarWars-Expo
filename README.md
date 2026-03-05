@@ -1,5 +1,4 @@
 # StarWars App - Expo
-This is the Expo app i implemented for the LiquidLabs TakeHome Assignment
 
 ## Prerequisites:
 
